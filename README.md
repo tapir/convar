@@ -21,5 +21,5 @@ go get -u github.com/tapir/convar
 
 ## Examples
 
-Check out the `examples` folder.
+Check out the `_examples` folder.
 ![screenshot](https://github.com/tapir/convar/blob/master/_examples/ebicon/screenshot.png?raw=true)
