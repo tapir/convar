@@ -40,7 +40,7 @@ func NewConsole(bufMaxLines int, logLevel LogLevel, logInfoPrefix string, logWar
 	return c
 }
 
-// RegDefaultVars registers an assortment of useful convars.
+// RegDefaultConVars registers an assortment of useful convars.
 //		con_dump:		Saves the console buffer to a file.
 //		con_clear:		Clears the console buffer.
 //		var_reset:		Resets given convar to its default value without triggering its callback.
@@ -48,8 +48,8 @@ func NewConsole(bufMaxLines int, logLevel LogLevel, logInfoPrefix string, logWar
 //		var_load:		Loads convars from a file, overwriting the ones that are already in the memory.
 //		var_save:		Saves convars to a file.
 //		var_list:		Lists all convars with their description.
-func (c *Console) RegDefaultVars() {
-	c.RegVar(
+func (c *Console) RegDefaultConVars() {
+	c.RegConVar(
 		NewConVar("con_dump", reflect.String, true, "Saves the console buffer to a file.", "console.log", func(con *Console, oldVal, newVal interface{}) {
 			file := newVal.(string)
 			if file == "" {
@@ -62,17 +62,17 @@ func (c *Console) RegDefaultVars() {
 			con.LogInfof("%s is saved", file)
 		}),
 	)
-	c.RegVar(
+	c.RegConVar(
 		NewConVar("con_clear", reflect.Int, true, "Clears the console buffer.", 0, func(con *Console, oldVal, newVal interface{}) {
 			con.ClearBuffer()
 		}),
 	)
-	c.RegVar(
+	c.RegConVar(
 		NewConVar("var_reset_all", reflect.Int, true, "Resets all convars to their default values.", 0, func(con *Console, oldVal, newVal interface{}) {
 			con.ResetAllVar()
 		}),
 	)
-	c.RegVar(
+	c.RegConVar(
 		NewConVar("var_reset", reflect.String, true, "Resets given convar to its default value.", "", func(con *Console, oldVal, newVal interface{}) {
 			if newVal == nil {
 				con.LogErrorf(errNilValue)
@@ -87,7 +87,7 @@ func (c *Console) RegDefaultVars() {
 			con.LogInfof("%s is reset", newVal.(string))
 		}),
 	)
-	c.RegVar(
+	c.RegConVar(
 		NewConVar("var_load", reflect.String, true, "Loads convars from a file, overwriting the ones that are already in the memory.", "convars.ini", func(con *Console, oldVal, newVal interface{}) {
 			file := newVal.(string)
 			if file == "" {
@@ -100,7 +100,7 @@ func (c *Console) RegDefaultVars() {
 			con.LogInfof("%s is loaded", file)
 		}),
 	)
-	c.RegVar(
+	c.RegConVar(
 		NewConVar("var_save", reflect.String, true, "Saves convars to a file.", "convars.ini", func(con *Console, oldVal, newVal interface{}) {
 			file := newVal.(string)
 			if file == "" {
@@ -113,7 +113,7 @@ func (c *Console) RegDefaultVars() {
 			con.LogInfof("%s is saved", file)
 		}),
 	)
-	c.RegVar(
+	c.RegConVar(
 		NewConVar("var_list", reflect.Int, true, "Lists all convars with their description.", 0, func(con *Console, oldVal, newVal interface{}) {
 			cvs := con.ConVars()
 			for _, cv := range cvs {
@@ -123,8 +123,8 @@ func (c *Console) RegDefaultVars() {
 	)
 }
 
-// RegVar registers a new convar to be used in the console.
-func (c *Console) RegVar(cv *ConVar) {
+// RegConVar registers a new convar to be used in the console.
+func (c *Console) RegConVar(cv *ConVar) {
 	c.varLock.Lock()
 	defer c.varLock.Unlock()
 	cv.console = c
