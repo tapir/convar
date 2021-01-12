@@ -87,7 +87,7 @@ func (c *Console) BufferRaw() []string {
 }
 
 // BufferWrapped returns the console buffer with each line wrapped to a new line.
-// maxWidth is the macimum number of runes allowed before wrapping it to a new line.
+// maxWidth is the maximum number of runes allowed before wrapping it to a new line.
 //
 // Note that this method doesn't take into account the rare cases of where a single character might
 // be represented by multiple runes (ex: 'é́́'). Use https://pkg.go.dev/golang.org/x/text/unicode/norm together
@@ -97,7 +97,7 @@ func (c *Console) BufferWrapped(maxWidth int) string {
 }
 
 // BufferWrappedRaw returns the console buffer with each line wrapped to a new line as a slice.
-// maxWidth is the macimum number of runes allowed before wrapping it to a new line.
+// maxWidth is the maximum number of runes allowed before wrapping it to a new line.
 func (c *Console) BufferWrappedRaw(maxWidth int) []string {
 	c.bufLock.Lock()
 	defer c.bufLock.Unlock()
