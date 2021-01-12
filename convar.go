@@ -32,9 +32,9 @@ type ConVar struct {
 // NewConVar should ideally be called for each convar at the begging of the application and before loading a config file.
 // A convar cannot be safely used if it's not registered to a console instance via RegVar.
 //
-// When isFunc is true, a convar is treated specially:
+// When isFunc is true, a convar is treated in a special way:
 // 		Convar is not saved to or loaded from the config file. This can be used to protect users from doing things like cyclic loading.
-// 		SetInt, SetBool, SetFloat64, SetString functions do not set the value but instead trigger the callback with the given value.
+// 		SetInt, SetBool, SetFloat64, SetString functions do not change the value but instead trigger the callback with the given value.
 // 		Value is always equal to default value.
 func NewConVar(varName string, varType reflect.Kind, isFunc bool, varDesc string, valDefault interface{}, valSet ValSetFunc) *ConVar {
 	varName = strings.ToLower(varName)
@@ -182,7 +182,7 @@ func (cv *ConVar) Reset() {
 	cv.value.Store(cv.valDefault)
 }
 
-// Func returns true if the convar is set as a function.
-func (cv *ConVar) Func() bool {
+// IsFunc returns true if the convar is set as a function.
+func (cv *ConVar) IsFunc() bool {
 	return cv.isFunc
 }
