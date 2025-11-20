@@ -65,7 +65,7 @@ func (g *game) Update() error {
 		cv, err := g.console.ExecCmd(g.command)
 		if err != nil {
 			g.console.LogErrorf("%s -> %s", g.command, err)
-		} else if !cv.Func() {
+		} else if !cv.IsFunc() {
 			v, _ := cv.Interface()
 			g.console.LogInfof("%s %v", cv.Name(), v)
 		}
@@ -110,20 +110,20 @@ func main() {
 	}
 
 	// Register variables
-	g.console.RegDefaultVars()
-	g.console.RegVar(convar.NewConVar(
+	g.console.RegDefaultConVars()
+	g.console.RegConVar(convar.NewConVar(
 		"cl_width", reflect.Int, false, "Sets client horizontal resolution", 640, func(con *convar.Console, oldVal, newVal interface{}) {
 			con.LogInfof("Variable cl_width changed from %v to %v", oldVal, newVal)
 			log.Printf("Variable cl_width changed from %v to %v", oldVal, newVal)
 		},
 	))
-	g.console.RegVar(convar.NewConVar(
+	g.console.RegConVar(convar.NewConVar(
 		"cl_height", reflect.Int, false, "Sets client vertical resolution", 480, func(con *convar.Console, oldVal, newVal interface{}) {
 			con.LogInfof("Variable cl_height changed from %v to %v", oldVal, newVal)
 			log.Printf("Variable cl_height changed from %v to %v", oldVal, newVal)
 		},
 	))
-	g.console.RegVar(convar.NewConVar(
+	g.console.RegConVar(convar.NewConVar(
 		"cl_title", reflect.String, false, "Sets window title", "convar test", func(con *convar.Console, oldVal, newVal interface{}) {
 			con.LogInfof("Variable cl_title changed from %v to %v", oldVal, newVal)
 			log.Printf("Variable cl_title changed from %v to %v", oldVal, newVal)
